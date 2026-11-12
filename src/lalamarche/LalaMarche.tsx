@@ -48,7 +48,7 @@ const goldText: React.CSSProperties = {
 };
 
 // 写真（ゆっくりズーム＋パン）
-const Photo: React.FC<{src: string; dur: number; from?: number; to?: number; panY?: number; blur?: number; dim?: number}> = ({src, dur, from = 1.0, to = 1.1, panY = 0, blur = 0, dim = 0}) => {
+const Photo: React.FC<{src: string; dur: number; from?: number; to?: number; panY?: number; offsetY?: number; blur?: number; dim?: number}> = ({src, dur, from = 1.0, to = 1.1, panY = 0, offsetY = 0, blur = 0, dim = 0}) => {
   const f = useCurrentFrame();
   const t = interpolate(f, [0, dur], [0, 1], {extrapolateRight: 'clamp'});
   const s = from + (to - from) * t;
@@ -56,7 +56,7 @@ const Photo: React.FC<{src: string; dur: number; from?: number; to?: number; pan
     <AbsoluteFill style={{overflow: 'hidden'}}>
       <Img src={staticFile('lalamarche/' + src)} style={{
         width: '100%', height: '100%', objectFit: 'cover',
-        transform: `scale(${s}) translateY(${panY * t}px)`, filter: blur ? `blur(${blur}px)` : undefined,
+        transform: `scale(${s}) translateY(${offsetY + panY * t}px)`, filter: blur ? `blur(${blur}px)` : undefined,
       }} />
       {dim > 0 && <AbsoluteFill style={{background: `rgba(26,14,6,${dim})`}} />}
     </AbsoluteFill>
@@ -299,9 +299,9 @@ const S3: React.FC<{dur: number}> = ({dur}) => {
 
 // 4. 楽しみ方：体験・ステージ・グルメ（企画書の3つのブース）
 const BOOTHS = [
-  {photo: 'exterior.jpg', from: 1.32, to: 1.4, en: 'EXPERIENCE', jp: '体験', sub: 'チャペルでブーケづくり\nフォトスポットも'},
-  {photo: 'woodhall.jpg', from: 1.04, to: 1.12, en: 'STAGE', jp: 'ステージ', sub: 'ダンスなどの\nステージ発表'},
-  {photo: 'lounge.jpg', from: 1.04, to: 1.12, en: 'GOURMET', jp: 'グルメ', sub: 'ほっとひと息\nおいしいひととき'},
+  {photo: 'exterior.jpg', from: 1.32, to: 1.4, offsetY: 0, en: 'EXPERIENCE', jp: '体験', sub: 'チャペルでブーケづくり\nフォトスポットも'},
+  {photo: 'stage.jpg', from: 1.26, to: 1.32, offsetY: -170, en: 'STAGE', jp: 'ステージ', sub: 'ダンスなどの\nステージ発表'},
+  {photo: 'lounge.jpg', from: 1.04, to: 1.12, offsetY: 0, en: 'GOURMET', jp: 'グルメ', sub: 'ほっとひと息\nおいしいひととき'},
 ];
 // 写真の切り替えより先に文字を消し、次の文字と重ならないようにする
 const BoothTextFade: React.FC<{len: number; last: boolean; children: React.ReactNode}> = ({len, last, children}) => {
@@ -310,16 +310,18 @@ const BoothTextFade: React.FC<{len: number; last: boolean; children: React.React
   return <AbsoluteFill style={{opacity: o}}>{children}</AbsoluteFill>;
 };
 const S4: React.FC<{dur: number}> = ({dur}) => {
-  const seg = Math.round((dur - XF * 2) / 3);
+  // このシーンは n4a 開始の0.25秒前 − XF から始まる
+  const s0 = sec(L.n4a.start - 0.25) - XF;
+  const starts = [0, sec(L.n4b.start - 0.25) - s0 - XF / 2, sec(L.n4c.start - 0.25) - s0 - XF / 2];
   return (
     <AbsoluteFill>
       {BOOTHS.map((b, i) => {
-        const from = i === 0 ? 0 : XF + i * seg - XF / 2;
-        const len = i === 2 ? dur - from : seg + XF;
+        const from = starts[i];
+        const len = i === 2 ? dur - from : starts[i + 1] - from + XF;
         return (
           <Sequence key={b.en} from={from} durationInFrames={len}>
             <SceneFade dur={len} noFadeIn={i === 0}>
-              <Photo src={b.photo} dur={len} from={b.from} to={b.to} />
+              <Photo src={b.photo} dur={len} from={b.from} to={b.to} offsetY={b.offsetY} />
               <AbsoluteFill style={{background: 'linear-gradient(180deg, rgba(30,16,6,0.1) 25%, rgba(30,16,6,0.72) 50%, rgba(30,16,6,0.72) 72%, rgba(30,16,6,0.25) 90%)'}} />
               <BoothTextFade len={len} last={i === 2}>
               <AbsoluteFill style={{alignItems: 'center', top: 760}}>
@@ -466,7 +468,7 @@ export const LalaMarche: React.FC<{narration: boolean}> = ({narration}) => {
   useFonts();
   const {durationInFrames} = useVideoConfig();
   // シーン境界はナレーションの開始位置に合わせる
-  const b = [0, sec(L.n2.start - 0.25), sec(L.n3.start - 0.25), sec(L.n4.start - 0.25), sec(L.n5.start - 0.25), sec(L.n6.start - 0.25), sec(L.n7.start - 0.25), durationInFrames];
+  const b = [0, sec(L.n2.start - 0.25), sec(L.n3.start - 0.25), sec(L.n4a.start - 0.25), sec(L.n5.start - 0.25), sec(L.n6.start - 0.25), sec(L.n7.start - 0.25), durationInFrames];
   const scenes = [S1, S2, S3, S4, S5, S6, S7];
   return (
     <AbsoluteFill style={{background: BROWN}}>
