@@ -13,6 +13,7 @@ SHOTS = {
   "greenwall": ("f8a171a4-image.jpg", 0.36, 0.86, 0.0),
   "table":     ("85a12404-image.jpg", 0.46, 0.88, 0.0),
   "lobby":     ("e85a950f-image.jpg", 0.66, 0.86, 0.0),
+  "lounge":    ("497e083b-image.jpg", 0.40, 0.88, 0.0),
 }
 def grade(name, f, cx, bright, sky):
     im = Image.open(U + f).convert("RGB")

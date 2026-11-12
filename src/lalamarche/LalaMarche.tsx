@@ -270,7 +270,7 @@ const S3: React.FC<{dur: number}> = ({dur}) => {
 // 4. 誰でも：ご家族で、お友だちと。どなたでも、お気軽に。（写真3枚を切り替え）
 const S4: React.FC<{dur: number}> = ({dur}) => {
   const third = Math.round(dur / 3);
-  const shots = ['table.jpg', 'greenwall.jpg', 'lobby.jpg'];
+  const shots = ['lounge.jpg', 'greenwall.jpg', 'lobby.jpg'];
   return (
     <AbsoluteFill>
       {shots.map((s, i) => (

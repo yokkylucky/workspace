@@ -11,6 +11,7 @@ run "yt-dlp"        .venv/bin/yt-dlp -q --no-warnings --force-overwrites -o out/
 run "Blender"       bash -c 'tools/blender/blender -b --factory-startup --python tests/blender_test.py | grep -q BLENDER_OK'
 run "Remotion+GSAP+Three.js" bash -c "REMOTION_CHROME=$CHROME npx remotion render src/index.ts Demo out/remotion_test.mp4 --log=error --frames=0-29"
 run "HyperFrames"   bash -c 'cd hyperframes/demo && npx hyperframes render -o ../../out/hyperframes_test.mp4 --quiet'
+run "BGM自動作曲"    bash -c '.venv/bin/python scripts/bgm.py --duration 12 --mood christmas_elegant --accents 4,8 --out out/bgm_test.wav --midi out/bgm_test.mid | grep -q BGM_OK && .venv/bin/python tests/bgm_theory_check.py out/bgm_test.mid 62'
 run "Impeccable"    bash -c 'npx impeccable detect tests/fixtures/sloppy.html 2>&1 | grep -q "anti-patterns found"'
 run "Agent Skills (Remotion, HyperFrames, Impeccable)" bash -c 'for s in remotion-best-practices hyperframes impeccable; do test -f .claude/skills/$s/SKILL.md || exit 1; done'
 run "Chrome DevTools MCP" bash -c 'timeout 120 .venv/bin/python tests/chrome_devtools_mcp_test.py | grep -q "screenshot saved"'

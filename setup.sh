@@ -8,11 +8,13 @@ mkdir -p tools logs out
 BLENDER_VER=5.3.0
 TORCH_IDX=https://download.pytorch.org/whl/cpu
 
-echo "== apt: ffmpeg / xvfb / 日本語フォント"
+echo "== apt: ffmpeg / xvfb / 日本語フォント / FluidSynth(BGM)"
 need=()
 command -v ffmpeg >/dev/null || need+=(ffmpeg)
 command -v xvfb-run >/dev/null || need+=(xvfb)
 fc-list :lang=ja | grep -q . || need+=(fonts-ipafont-gothic)
+command -v fluidsynth >/dev/null || need+=(fluidsynth)
+[ -f /usr/share/sounds/sf2/FluidR3_GM.sf2 ] || need+=(fluid-soundfont-gm)
 if [ ${#need[@]} -gt 0 ]; then apt-get update -qq && apt-get install -y -qq "${need[@]}"; fi
 
 echo "== npm: Remotion / GSAP / Three.js / HyperFrames / Chrome DevTools MCP / Impeccable"
@@ -21,10 +23,10 @@ echo "== npm: Remotion / GSAP / Three.js / HyperFrames / Chrome DevTools MCP / I
 echo "== Python(.venv): Chatterbox / faster-whisper / yt-dlp / Blender MCP"
 [ -x .venv/bin/python ] || uv venv -q -p 3.11 .venv
 [ -d tools/blender-mcp ] || git clone -q --depth 1 https://github.com/ahujasid/blender-mcp.git tools/blender-mcp
-if ! .venv/bin/python -c "import chatterbox, faster_whisper, yt_dlp, blender_mcp" 2>/dev/null; then
+if ! .venv/bin/python -c "import chatterbox, faster_whisper, yt_dlp, blender_mcp, mido" 2>/dev/null; then
   VIRTUAL_ENV=.venv uv pip install -q --index-strategy unsafe-best-match --extra-index-url "$TORCH_IDX" \
     "torch==2.6.0+cpu" "torchaudio==2.6.0+cpu" "torchvision==0.21.0+cpu" \
-    chatterbox-tts faster-whisper yt-dlp "setuptools<81" ./tools/blender-mcp
+    chatterbox-tts faster-whisper yt-dlp mido "setuptools<81" ./tools/blender-mcp
 fi
 
 echo "== Blender $BLENDER_VER"

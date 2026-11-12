@@ -29,6 +29,7 @@ tests/check_all.sh         # 全ツールを1つずつ動作確認（FULL=1 で�
 | ComfyUI | 画像・動画生成パイプライン | `scripts/start-comfyui.sh &` → `python3 scripts/comfy_generate.py "prompt" out/img.png` |
 | yt-dlp | 参考クリップ・音声の取得 | `.venv/bin/yt-dlp <URL>` |
 | FFmpeg | エンコード・確認・MP4書き出し | 例: 映像＋音声＋字幕焼き込み（下記） |
+| BGM自動作曲（自作） | 動画に合うオリジナルBGMを作って入れる | `.venv/bin/python scripts/add_bgm.py in.mp4 out.mp4 --mood christmas_elegant`（曲調一覧は `scripts/bgm.py --list`） |
 
 ### 合成の例（映像＋ナレーション＋字幕）
 
