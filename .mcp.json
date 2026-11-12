@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "blender": {
+      "command": ".venv/bin/mcp-for-blender",
+      "env": { "DISABLE_TELEMETRY": "true" }
+    },
+    "chrome-devtools": {
+      "command": "npx",
+      "args": [
+        "chrome-devtools-mcp",
+        "--headless",
+        "--isolated",
+        "--no-usage-statistics",
+        "--executablePath", "/opt/pw-browsers/chromium-1243/chrome-linux64/chrome",
+        "--viewport", "1920x1080",
+        "--chromeArg=--no-sandbox"
+      ]
+    }
+  }
+}

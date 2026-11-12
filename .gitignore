@@ -1,0 +1,11 @@
+node_modules/
+tools/
+logs/
+out/
+*.mp4
+*.wav
+*.srt
+!samples/**
+.venv/
+__pycache__/
+.hyperframes/

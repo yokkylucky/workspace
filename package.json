@@ -1,0 +1,25 @@
+{
+  "name": "video-studio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render",
+    "hf": "hyperframes"
+  },
+  "dependencies": {
+    "@react-three/fiber": "^9.8.2",
+    "@remotion/cli": "^4.0.543",
+    "@remotion/three": "^4.0.543",
+    "@types/react": "^19.3.0",
+    "chrome-devtools-mcp": "^1.13.0",
+    "gsap": "^3.15.1",
+    "hyperframes": "^0.9.37",
+    "impeccable": "^4.8.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "remotion": "^4.0.543",
+    "three": "^0.187.0",
+    "typescript": "^7.0.2"
+  }
+}
