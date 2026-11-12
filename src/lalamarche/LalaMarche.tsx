@@ -188,35 +188,58 @@ const jpBody: React.CSSProperties = {fontFamily: MINCHO, fontWeight: 500, color:
 // ===== シーン =====
 // シーン切り替えは0.6秒のクロスフェード
 const XF = 18;
-const Scene: React.FC<{from: number; to: number; children: React.ReactNode}> = ({from, to, children}) => {
+const Scene: React.FC<{from: number; to: number; first?: boolean; children: React.ReactNode}> = ({from, to, first, children}) => {
   const dur = to - from + XF;
   return (
     <Sequence from={from} durationInFrames={dur}>
-      <SceneFade dur={dur}>{children}</SceneFade>
+      <SceneFade dur={dur} noFadeIn={first}>{children}</SceneFade>
     </Sequence>
   );
 };
-const SceneFade: React.FC<{dur: number; children: React.ReactNode}> = ({dur, children}) => {
+const SceneFade: React.FC<{dur: number; noFadeIn?: boolean; children: React.ReactNode}> = ({dur, noFadeIn, children}) => {
   const f = useCurrentFrame();
-  return <AbsoluteFill style={{opacity: fadeInOut(f, dur, XF, XF)}}>{children}</AbsoluteFill>;
+  const o = noFadeIn ? interpolate(f, [dur - XF, dur], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}) : fadeInOut(f, dur, XF, XF);
+  return <AbsoluteFill style={{opacity: o}}>{children}</AbsoluteFill>;
 };
 
-// 1. 外観：いつもは特別な日を彩る結婚式場
-const S1: React.FC<{dur: number}> = ({dur}) => (
-  <AbsoluteFill>
-    <Photo src="exterior.jpg" dur={dur} from={1.12} to={1.0} panY={-30} />
-    <AbsoluteFill style={{background: 'linear-gradient(180deg, rgba(30,16,6,0.25) 0%, rgba(30,16,6,0.62) 14%, rgba(30,16,6,0.55) 34%, rgba(30,16,6,0) 52%, rgba(30,16,6,0) 62%, rgba(30,16,6,0.55) 100%)'}} />
-    <AbsoluteFill style={{alignItems: 'center', top: 300}}>
-      <FadeUp delay={8}><div style={{fontFamily: SERIF_EN, fontSize: 34, letterSpacing: '0.3em', marginRight: '-0.3em', color: GOLD_LIGHT, textShadow}}>LA LA CHANCE BELAMI</div></FadeUp>
-      <div style={{height: 26}} />
-      <FadeUp delay={14}><Divider width={420} /></FadeUp>
-      <div style={{height: 40}} />
-      <RevealText text="特別な日を彩る" delay={22} style={{...jpBody, fontSize: 64, letterSpacing: '0.12em'}} />
-      <div style={{height: 18}} />
-      <RevealText text="結婚式場が" delay={38} style={{...jpBody, fontSize: 64, letterSpacing: '0.12em'}} />
+// 1. 冒頭：0秒目から「結婚式場で、マルシェ!?」＋入場無料 → 特別な日を彩る結婚式場が
+const HOOK = 52; // 冒頭の見出しを出しておくフレーム数（約1.7秒）
+const S1: React.FC<{dur: number}> = ({dur}) => {
+  const f = useCurrentFrame();
+  const hookOut = interpolate(f, [HOOK - 10, HOOK + 4], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const hookScale = interpolate(f, [0, HOOK], [1.06, 1.0], {extrapolateRight: 'clamp', easing: ease});
+  return (
+    <AbsoluteFill>
+      <Photo src="exterior.jpg" dur={dur} from={1.12} to={1.0} panY={-30} />
+      <AbsoluteFill style={{background: 'linear-gradient(180deg, rgba(30,16,6,0.25) 0%, rgba(30,16,6,0.62) 14%, rgba(30,16,6,0.55) 34%, rgba(30,16,6,0) 52%, rgba(30,16,6,0) 62%, rgba(30,16,6,0.55) 100%)'}} />
+      <AbsoluteFill style={{background: 'rgba(26,14,6,0.45)', opacity: hookOut}} />
+      {/* 見出し（0フレーム目から表示） */}
+      <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', top: -120, opacity: hookOut, transform: `scale(${hookScale})`}}>
+        <div style={{fontFamily: SERIF_EN, fontSize: 32, letterSpacing: '0.3em', marginRight: '-0.3em', color: GOLD_LIGHT, textShadow}}>LA LA CHANCE BELAMI</div>
+        <div style={{height: 40}} />
+        <div style={{...jpBody, fontSize: 84, fontWeight: 700, letterSpacing: '0.08em'}}>結婚式場で、</div>
+        <div style={{height: 6}} />
+        <div style={{fontFamily: MINCHO, fontWeight: 700, fontSize: 150, letterSpacing: '0.02em', ...goldText}}>マルシェ<span style={{letterSpacing: '-0.08em'}}>!?</span></div>
+        <div style={{height: 40}} />
+        <div style={{
+          fontFamily: MINCHO, fontWeight: 700, fontSize: 44, letterSpacing: '0.14em', color: BROWN,
+          padding: '14px 44px 14px 52px', borderRadius: 999, background: `linear-gradient(180deg, ${GOLD_LIGHT}, ${GOLD})`,
+          boxShadow: '0 6px 24px rgba(0,0,0,0.35)',
+        }}>12.13 SUN ・ 入場無料</div>
+      </AbsoluteFill>
+      {/* 続き：特別な日を彩る結婚式場が */}
+      <AbsoluteFill style={{alignItems: 'center', top: 300}}>
+        <FadeUp delay={HOOK + 2}><div style={{fontFamily: SERIF_EN, fontSize: 34, letterSpacing: '0.3em', marginRight: '-0.3em', color: GOLD_LIGHT, textShadow}}>LA LA CHANCE BELAMI</div></FadeUp>
+        <div style={{height: 26}} />
+        <FadeUp delay={HOOK + 6}><Divider width={420} /></FadeUp>
+        <div style={{height: 40}} />
+        <RevealText text="特別な日を彩る" delay={HOOK + 10} style={{...jpBody, fontSize: 64, letterSpacing: '0.12em'}} />
+        <div style={{height: 18}} />
+        <RevealText text="結婚式場が" delay={HOOK + 24} style={{...jpBody, fontSize: 64, letterSpacing: '0.12em'}} />
+      </AbsoluteFill>
     </AbsoluteFill>
-  </AbsoluteFill>
-);
+  );
+};
 
 // 2. 会場：みんなのマルシェに
 const S2: React.FC<{dur: number}> = ({dur}) => (
@@ -261,29 +284,62 @@ const S3: React.FC<{dur: number}> = ({dur}) => {
         <FadeUp delay={40}><Divider width={560} /></FadeUp>
         <div style={{height: 34}} />
         <FadeUp delay={48}><div style={{...jpBody, fontSize: 44, letterSpacing: '0.1em'}}>〜つながる想い、ひろがる笑顔。〜</div></FadeUp>
+        <div style={{height: 44}} />
+        <FadeUp delay={58}>
+          <div style={{
+            fontFamily: MINCHO, fontWeight: 700, fontSize: 50, letterSpacing: '0.3em', color: CREAM,
+            border: `2px solid ${GOLD}`, padding: '12px 40px 12px 56px', background: 'rgba(42,26,15,0.6)',
+          }}>入場無料</div>
+        </FadeUp>
       </AbsoluteFill>
       <GoldFrame />
     </AbsoluteFill>
   );
 };
 
-// 4. 誰でも：ご家族で、お友だちと。どなたでも、お気軽に。（写真3枚を切り替え）
+// 4. 楽しみ方：体験・ステージ・グルメ（企画書の3つのブース）
+const BOOTHS = [
+  {photo: 'exterior.jpg', from: 1.32, to: 1.4, en: 'EXPERIENCE', jp: '体験', sub: 'チャペルでブーケづくり\nフォトスポットも'},
+  {photo: 'woodhall.jpg', from: 1.04, to: 1.12, en: 'STAGE', jp: 'ステージ', sub: 'ダンスなどの\nステージ発表'},
+  {photo: 'lounge.jpg', from: 1.04, to: 1.12, en: 'GOURMET', jp: 'グルメ', sub: 'ほっとひと息\nおいしいひととき'},
+];
+// 写真の切り替えより先に文字を消し、次の文字と重ならないようにする
+const BoothTextFade: React.FC<{len: number; last: boolean; children: React.ReactNode}> = ({len, last, children}) => {
+  const f = useCurrentFrame();
+  const o = last ? 1 : interpolate(f, [len - XF - 8, len - XF + 2], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  return <AbsoluteFill style={{opacity: o}}>{children}</AbsoluteFill>;
+};
 const S4: React.FC<{dur: number}> = ({dur}) => {
-  const third = Math.round(dur / 3);
-  const shots = ['lounge.jpg', 'greenwall.jpg', 'lobby.jpg'];
+  const seg = Math.round((dur - XF * 2) / 3);
   return (
     <AbsoluteFill>
-      {shots.map((s, i) => (
-        <Sequence key={s} from={i * third} durationInFrames={i === 2 ? dur - 2 * third : third + 10}>
-          <SceneFade dur={i === 2 ? dur - 2 * third : third + 10}><Photo src={s} dur={third + 10} from={1.04} to={1.12} /></SceneFade>
-        </Sequence>
-      ))}
-      <AbsoluteFill style={{background: 'linear-gradient(180deg, rgba(30,16,6,0) 30%, rgba(30,16,6,0.6) 55%, rgba(30,16,6,0.2) 80%)'}} />
-      <AbsoluteFill style={{alignItems: 'center', top: 820}}>
-        <RevealText text="ご家族で、お友だちと。" delay={6} style={{...jpBody, fontSize: 62, letterSpacing: '0.08em'}} />
-        <div style={{height: 26}} />
-        <RevealText text="どなたでも、お気軽に。" delay={Math.round(dur * 0.45)} style={{...jpBody, fontSize: 62, letterSpacing: '0.08em'}} />
-      </AbsoluteFill>
+      {BOOTHS.map((b, i) => {
+        const from = i === 0 ? 0 : XF + i * seg - XF / 2;
+        const len = i === 2 ? dur - from : seg + XF;
+        return (
+          <Sequence key={b.en} from={from} durationInFrames={len}>
+            <SceneFade dur={len} noFadeIn={i === 0}>
+              <Photo src={b.photo} dur={len} from={b.from} to={b.to} />
+              <AbsoluteFill style={{background: 'linear-gradient(180deg, rgba(30,16,6,0.1) 25%, rgba(30,16,6,0.72) 50%, rgba(30,16,6,0.72) 72%, rgba(30,16,6,0.25) 90%)'}} />
+              <BoothTextFade len={len} last={i === 2}>
+              <AbsoluteFill style={{alignItems: 'center', top: 760}}>
+                <FadeUp delay={i === 0 ? XF : 6}>
+                  <div style={{fontFamily: SERIF_EN, fontSize: 30, letterSpacing: '0.34em', marginRight: '-0.34em', color: GOLD_LIGHT, textShadow}}>
+                    {`0${i + 1}  /  ${b.en}`}
+                  </div>
+                </FadeUp>
+                <div style={{height: 14}} />
+                <RevealText text={b.jp} delay={i === 0 ? XF + 2 : 8} stagger={3} gold style={{fontFamily: MINCHO, fontWeight: 700, fontSize: 132}} />
+                <div style={{height: 18}} />
+                <FadeUp delay={i === 0 ? XF + 10 : 16}>
+                  <div style={{...jpBody, fontSize: 46, lineHeight: 1.55, letterSpacing: '0.06em', whiteSpace: 'pre-line'}}>{b.sub}</div>
+                </FadeUp>
+              </AbsoluteFill>
+              </BoothTextFade>
+            </SceneFade>
+          </Sequence>
+        );
+      })}
     </AbsoluteFill>
   );
 };
@@ -327,7 +383,7 @@ const S5: React.FC<{dur: number}> = ({dur}) => (
 // 6. お誘い：はじめてのララマルシェ、ぜひ遊びに来てください
 const S6: React.FC<{dur: number}> = ({dur}) => (
   <AbsoluteFill>
-    <Photo src="exterior.jpg" dur={dur} from={1.0} to={1.1} />
+    <Photo src="greenwall.jpg" dur={dur} from={1.0} to={1.1} />
     <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 45%, rgba(30,16,6,0.6) 0%, rgba(30,16,6,0.15) 65%)'}} />
     <AbsoluteFill style={{alignItems: 'center', top: 600}}>
       <FadeUp delay={4}><div style={{fontFamily: ITALIC_EN, fontStyle: 'italic', fontSize: 60, ...goldText}}>Welcome</div></FadeUp>
@@ -415,7 +471,7 @@ export const LalaMarche: React.FC<{narration: boolean}> = ({narration}) => {
   return (
     <AbsoluteFill style={{background: BROWN}}>
       {scenes.map((S, i) => (
-        <Scene key={i} from={Math.max(0, b[i] - (i ? XF : 0))} to={b[i + 1]}>
+        <Scene key={i} first={i === 0} from={Math.max(0, b[i] - (i ? XF : 0))} to={b[i + 1]}>
           <S dur={b[i + 1] - b[i] + XF * 2} />
         </Scene>
       ))}
