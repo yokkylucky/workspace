@@ -51,5 +51,8 @@ echo "== 参照用リポジトリ（Skillsの原本）"
 [ -d tools/remotion-skills ] || git clone -q --depth 1 https://github.com/remotion-dev/skills.git tools/remotion-skills
 [ -d tools/impeccable ] || git clone -q --depth 1 https://github.com/pbakaus/impeccable.git tools/impeccable
 
+# 追加スキル（プロジェクトの .claude/skills にも同梱済み。グローバルにも入れる）
+[ -d "$HOME/.claude/skills/canvas-design" ] || npx -y skills add https://github.com/anthropics/skills --skill canvas-design -g -a claude-code -y >/dev/null 2>&1 || true
+[ -d "$HOME/.claude/skills/marketing-psychology" ] || npx -y skills add https://github.com/coreyhaines31/marketingskills --skill marketing-psychology -g -a claude-code -y >/dev/null 2>&1 || true
 npx --yes impeccable telemetry off >/dev/null 2>&1 || true
 echo "SETUP_DONE"
