@@ -210,7 +210,7 @@ const S1: React.FC<{dur: number}> = ({dur}) => {
   const hookScale = interpolate(f, [0, HOOK], [1.06, 1.0], {extrapolateRight: 'clamp', easing: ease});
   return (
     <AbsoluteFill>
-      <Photo src="exterior.jpg" dur={dur} from={1.12} to={1.0} panY={-30} />
+      <Photo src="c2.jpg" dur={dur} from={1.1} to={1.0} panY={-20} />
       <AbsoluteFill style={{background: 'linear-gradient(180deg, rgba(30,16,6,0.25) 0%, rgba(30,16,6,0.62) 14%, rgba(30,16,6,0.55) 34%, rgba(30,16,6,0) 52%, rgba(30,16,6,0) 62%, rgba(30,16,6,0.55) 100%)'}} />
       <AbsoluteFill style={{background: 'rgba(26,14,6,0.45)', opacity: hookOut}} />
       {/* 見出し（0フレーム目から表示） */}
@@ -244,8 +244,8 @@ const S1: React.FC<{dur: number}> = ({dur}) => {
 // 2. 会場：みんなのマルシェに
 const S2: React.FC<{dur: number}> = ({dur}) => (
   <AbsoluteFill>
-    <Photo src="chandelier.jpg" dur={dur} from={1.0} to={1.1} />
-    <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 42%, rgba(30,16,6,0.55) 0%, rgba(30,16,6,0.1) 60%)'}} />
+    <Photo src="c1.jpg" dur={dur} from={1.0} to={1.1} />
+    <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 38%, rgba(30,16,6,0.72) 0%, rgba(30,16,6,0.35) 38%, rgba(30,16,6,0.08) 65%)'}} />
     <AbsoluteFill style={{alignItems: 'center', top: 560}}>
       <FadeUp delay={4}><div style={{fontFamily: ITALIC_EN, fontStyle: 'italic', fontSize: 56, ...goldText}}>Open to everyone</div></FadeUp>
       <div style={{height: 36}} />
@@ -299,9 +299,9 @@ const S3: React.FC<{dur: number}> = ({dur}) => {
 
 // 4. 楽しみ方：体験・ステージ・グルメ（企画書の3つのブース）
 const BOOTHS = [
-  {photo: 'exterior.jpg', from: 1.32, to: 1.4, offsetY: 0, en: 'EXPERIENCE', jp: '体験', sub: 'チャペルでブーケづくり\nフォトスポットも'},
-  {photo: 'stage.jpg', from: 1.26, to: 1.32, offsetY: -170, en: 'STAGE', jp: 'ステージ', sub: 'ダンスなどの\nステージ発表'},
-  {photo: 'gourmet.jpg', from: 1.02, to: 1.1, offsetY: 0, en: 'GOURMET', jp: 'グルメ', sub: 'ほっとひと息\nおいしいひととき'},
+  {photo: 'c6.jpg', from: 1.02, to: 1.1, offsetY: 0, en: 'EXPERIENCE', jp: '体験', sub: 'チャペルでブーケづくり\nフォトスポットも'},
+  {photo: 'c5.jpg', from: 1.02, to: 1.1, offsetY: 0, en: 'STAGE', jp: 'ステージ', sub: 'ダンスなどの\nステージ発表'},
+  {photo: 'c3.jpg', from: 1.02, to: 1.1, offsetY: 0, en: 'GOURMET', jp: 'グルメ', sub: 'ほっとひと息\nおいしいひととき'},
 ];
 // 写真の切り替えより先に文字を消し、次の文字と重ならないようにする
 const BoothTextFade: React.FC<{len: number; last: boolean; children: React.ReactNode}> = ({len, last, children}) => {
@@ -385,7 +385,7 @@ const S5: React.FC<{dur: number}> = ({dur}) => (
 // 6. お誘い：はじめてのララマルシェ、ぜひ遊びに来てください
 const S6: React.FC<{dur: number}> = ({dur}) => (
   <AbsoluteFill>
-    <Photo src="greenwall.jpg" dur={dur} from={1.0} to={1.1} />
+    <Photo src="c4.jpg" dur={dur} from={1.0} to={1.1} />
     <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 45%, rgba(30,16,6,0.6) 0%, rgba(30,16,6,0.15) 65%)'}} />
     <AbsoluteFill style={{alignItems: 'center', top: 600}}>
       <FadeUp delay={4}><div style={{fontFamily: ITALIC_EN, fontStyle: 'italic', fontSize: 60, ...goldText}}>Welcome</div></FadeUp>
@@ -405,7 +405,7 @@ const InstaIcon: React.FC<{size?: number}> = ({size = 64}) => (
 );
 const S7: React.FC<{dur: number}> = ({dur}) => (
   <AbsoluteFill>
-    <Photo src="woodhall.jpg" dur={dur} from={1.15} to={1.08} blur={6} dim={0.6} />
+    <Photo src="c7.jpg" dur={dur} from={1.15} to={1.08} blur={6} dim={0.6} />
     <Bokeh count={24} />
     <Garland y={40} sag={170} />
     <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', top: -60}}>
