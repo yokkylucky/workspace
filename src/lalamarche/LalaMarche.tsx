@@ -424,7 +424,7 @@ const S7: React.FC<{dur: number}> = ({dur}) => (
       <FadeUp delay={34}>
         <div style={{display: 'flex', alignItems: 'center', gap: 20, padding: '20px 40px', border: `1.5px solid ${GOLD}`, background: 'rgba(42,26,15,0.5)'}}>
           <InstaIcon size={58} />
-          <div style={{fontFamily: MINCHO, fontWeight: 500, fontSize: 40, letterSpacing: '0.03em', color: CREAM}}>@lalachance_belami_fukui</div>
+          <div style={{fontFamily: MINCHO, fontWeight: 500, fontSize: 40, letterSpacing: '0.03em', color: CREAM}}>@lalachance_belami_fukui_</div>
         </div>
       </FadeUp>
       <div style={{height: 40}} />
