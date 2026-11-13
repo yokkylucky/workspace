@@ -349,7 +349,7 @@ const S4: React.FC<{dur: number}> = ({dur}) => {
 // 5. 開催情報：12.13 SUN 11:00-18:00 入場無料
 const S5: React.FC<{dur: number}> = ({dur}) => (
   <AbsoluteFill>
-    <Photo src="whitehall.jpg" dur={dur} from={1.1} to={1.02} blur={2} dim={0.5} />
+    <Photo src="c7.jpg" dur={dur} from={1.1} to={1.02} blur={3} dim={0.5} />
     <Bokeh count={18} />
     <Garland y={40} sag={170} />
     <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', top: -30}}>
