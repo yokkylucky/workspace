@@ -14,10 +14,11 @@ SHOTS = {
   "table":     ("85a12404-image.jpg", 0.46, 0.88, 0.0),
   "lobby":     ("e85a950f-image.jpg", 0.66, 0.86, 0.0),
   "lounge":    ("497e083b-image.jpg", 0.40, 0.88, 0.0),
+  "gourmet":   ("/home/user/workspace/projects/lalamarche/assets/src_gourmet.webp", 0.43, 0.82, 0.0),
   "stage":     ("7293dc61-image.jpg", 0.505, 0.80, 0.0),
 }
 def grade(name, f, cx, bright, sky):
-    im = Image.open(U + f).convert("RGB")
+    im = Image.open(f if f.startswith("/") else U + f).convert("RGB")
     w, h = im.size; cw = int(h * 9 / 16)
     x0 = int(min(max(cx * w - cw / 2, 0), w - cw))
     im = im.crop((x0, 0, x0 + cw, h)).resize((W, H), Image.LANCZOS)

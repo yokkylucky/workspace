@@ -301,7 +301,7 @@ const S3: React.FC<{dur: number}> = ({dur}) => {
 const BOOTHS = [
   {photo: 'exterior.jpg', from: 1.32, to: 1.4, offsetY: 0, en: 'EXPERIENCE', jp: '体験', sub: 'チャペルでブーケづくり\nフォトスポットも'},
   {photo: 'stage.jpg', from: 1.26, to: 1.32, offsetY: -170, en: 'STAGE', jp: 'ステージ', sub: 'ダンスなどの\nステージ発表'},
-  {photo: 'lounge.jpg', from: 1.04, to: 1.12, offsetY: 0, en: 'GOURMET', jp: 'グルメ', sub: 'ほっとひと息\nおいしいひととき'},
+  {photo: 'gourmet.jpg', from: 1.02, to: 1.1, offsetY: 0, en: 'GOURMET', jp: 'グルメ', sub: 'ほっとひと息\nおいしいひととき'},
 ];
 // 写真の切り替えより先に文字を消し、次の文字と重ならないようにする
 const BoothTextFade: React.FC<{len: number; last: boolean; children: React.ReactNode}> = ({len, last, children}) => {
