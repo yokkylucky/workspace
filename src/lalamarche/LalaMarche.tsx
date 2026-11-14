@@ -300,7 +300,7 @@ const S3: React.FC<{dur: number}> = ({dur}) => {
 // 4. 楽しみ方：体験・ステージ・グルメ（企画書の3つのブース）
 const BOOTHS = [
   {photo: 'c6.jpg', from: 1.02, to: 1.1, offsetY: 0, en: 'EXPERIENCE', jp: '体験', sub: 'チャペルでブーケづくり\nフォトスポットも'},
-  {photo: 'c5.jpg', from: 1.02, to: 1.1, offsetY: 0, en: 'STAGE', jp: 'ステージ', sub: 'ダンスなどの\nステージ発表'},
+  {photo: 'c5_stage_v1.jpg', from: 1.02, to: 1.1, offsetY: 0, en: 'STAGE', jp: 'ステージ', sub: 'ダンスなどの\nステージ発表'},
   {photo: 'c3.jpg', from: 1.02, to: 1.1, offsetY: 0, en: 'GOURMET', jp: 'グルメ', sub: 'ほっとひと息\nおいしいひととき'},
 ];
 // 写真の切り替えより先に文字を消し、次の文字と重ならないようにする
