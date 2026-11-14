@@ -30,6 +30,18 @@
 8. **表紙画像**（`canvas-design` スキル）：リール・投稿の表紙を作る。先にデザインの考え方を `cover/philosophy.md` にまとめてから描く。動画と同じフォント・色を使う。プロフィール一覧で見える中央1080×1440に文字を収める（例：`projects/lalamarche/cover/make_cover.py`）
 9. **納品**：`deliverables/` に置き、SendUserFile で送る。変えた点と注意点を短く伝える
 
+## 画像の編集（ChatGPT と分担）
+画像の作成・編集は ChatGPT（OpenAI）で行い、Claude は「指示文を書く → できた画像を確認する → 直しの指示文を書く」を担当する。
+1. 案件ごとにフォルダを作る：`projects/<案件>/image_edits/<名前>/`。元画像を `original.jpg` として置く
+2. 指示文を `prompt_v1.md` に書く（「変えるところ」「そのまま残すところ」「仕上がりの条件」に分ける。例：`projects/lalamarche/image_edits/stage/`）
+3. 確認項目を `checklist.md` に書く（指示どおりか／残すべき物が残っているか／品質の破綻がないか）
+4. 画像を作る
+   - **手渡し**：ユーザーが `prompt_vN.md` の `---` より下を ChatGPT に貼り、元画像を添付して作る → できた画像をこの会話に送ってもらう → `scripts/image_edit.py fit 受け取った画像 result_vN.jpg`
+   - **直接**（OpenAI API の鍵が環境に保存済みのとき）：`.venv/bin/python scripts/image_edit.py openai --image original.jpg --prompt-file prompt_vN.md --out result_vN.jpg`
+5. `result_vN.jpg` を目で見て、`checklist.md` の各項目を ○／△／× で判定し、`review_vN.md` に残す
+6. × があれば、どこをどう直すかを具体的に書いた `prompt_v(N+1).md` を作って 4 に戻る。全部 ○ なら動画に使う
+- ChatGPT の月額プラン（Plus など）はプログラムから呼べない。直接つなぐには OpenAI API（別契約・従量課金）の鍵が必要。鍵は会話に貼らせず、`request_credential`（api.openai.com）で保存してもらう
+
 ## 参考
 - 実例：`projects/lalamarche/`（ララマルシェのPRリール、ナレーションあり／なしの2本）
 - 各ツールの使い方：`README.md`
