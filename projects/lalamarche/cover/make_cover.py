@@ -90,7 +90,7 @@ for ang in (0, 60, 120):
         d.line([CX, cy, CX + dx, cy + dy], fill=GOLD + (230,), width=max(1, int(2 * S)))
 
 draw_text("2026.12.13", font(CIN, 92), 1095 * S, None, sp=6 * S, gold=True)
-draw_text("SUNDAY   11:00 – 18:00", font(CIN, 34), 1225 * S, CREAM, sp=6 * S)
+draw_text("SUNDAY   11:00 START", font(CIN, 34), 1225 * S, CREAM, sp=6 * S)
 
 # 入場無料（細い金の枠）
 f = font(MIN_B, 50); txt = "入場無料"; sp = 22 * S

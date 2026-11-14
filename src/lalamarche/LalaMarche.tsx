@@ -346,7 +346,7 @@ const S4: React.FC<{dur: number}> = ({dur}) => {
   );
 };
 
-// 5. 開催情報：12.13 SUN 11:00-18:00 入場無料
+// 5. 開催情報：12.13 SUN 11:00 START 入場無料
 const S5: React.FC<{dur: number}> = ({dur}) => (
   <AbsoluteFill>
     <Photo src="c7.jpg" dur={dur} from={1.1} to={1.02} blur={3} dim={0.5} />
@@ -365,7 +365,7 @@ const S5: React.FC<{dur: number}> = ({dur}) => (
       <div style={{height: 26}} />
       <FadeUp delay={30}><Divider width={600} /></FadeUp>
       <div style={{height: 30}} />
-      <FadeUp delay={36}><div style={{fontFamily: SERIF_EN, fontSize: 68, letterSpacing: '0.06em', color: CREAM, textShadow}}>11:00 – 18:00</div></FadeUp>
+      <FadeUp delay={36}><div style={{fontFamily: SERIF_EN, fontSize: 68, letterSpacing: '0.06em', color: CREAM, textShadow}}>11:00 START</div></FadeUp>
       <div style={{height: 40}} />
       <FadeUp delay={48}>
         <div style={{
@@ -413,7 +413,7 @@ const S7: React.FC<{dur: number}> = ({dur}) => (
       <div style={{height: 14}} />
       <FadeUp delay={6}><div style={{fontFamily: MINCHO, fontWeight: 700, fontSize: 96, ...goldText}}>ララマルシェ</div></FadeUp>
       <div style={{height: 22}} />
-      <FadeUp delay={10}><div style={{fontFamily: SERIF_EN, fontSize: 36, letterSpacing: '0.1em', color: CREAM, textShadow}}>2026.12.13 SUN 11:00 – 18:00</div></FadeUp>
+      <FadeUp delay={10}><div style={{fontFamily: SERIF_EN, fontSize: 36, letterSpacing: '0.1em', color: CREAM, textShadow}}>2026.12.13 SUN 11:00 START</div></FadeUp>
       <div style={{height: 10}} />
       <FadeUp delay={12}><div style={{...jpBody, fontSize: 34, letterSpacing: '0.12em'}}>入場無料 ／ ララシャンス ベルアミー</div></FadeUp>
       <div style={{height: 46}} />
